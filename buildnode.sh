@@ -23,13 +23,13 @@ download() {
     tarball="http://nodejs.org/dist/node-$VERSION.tar.gz"
   fi
   if (
-	    [ ! -z $tarball ] && \
-	    curl -L --progress-bar $tarball -o "$tmptarball" && \
-			tar -xzf "$tmptarball" -C "$srcdir"
+    [ ! -z $tarball ] && \
+      curl -L --progress-bar $tarball -o "$tmptarball" && \
+      tar -xzf "$tmptarball" -C "$srcdir"
     )
   then
-		echo "-> Download $VERSION complete"
-	else
+    echo "-> Download $VERSION complete"
+  else
     echo "-> Download $VERSION failed!"
     return 1
   fi
@@ -52,14 +52,14 @@ build() {
   echo "-> Compile source code..."
 
   if (
-  	  cd "$srcdir/node-$VERSION" && \
-  	  ./configure --without-snapshot --dest-cpu=arm --dest-os=linux --prefix="$tmpdir/$VERSION" && \
-  	  make -j 4 && \	# set j according your cpu cores
-  	  rm -f "$tmpdir/$VERSION" 2>/dev/null && \
-  	  make install
+    cd "$srcdir/node-$VERSION" && \
+    ./configure --without-snapshot --dest-cpu=arm --dest-os=linux --prefix="$tmpdir/$VERSION" && \
+    make -j 4 && \	# set j according your cpu cores
+    rm -f "$tmpdir/$VERSION" 2>/dev/null && \
+    make install
     )
   then
-  	  echo "-> Compile $VERSION complete"
+    echo "-> Compile $VERSION complete"
   else
     echo "-> Compile $VERSION failed!"
     return 1
@@ -68,18 +68,18 @@ build() {
   echo "-> Build tarball..."
 
   local osarch="linux-armv5"
-	local tarball="$tmpdir/node-${VERSION}-${osarch}.tar.gz"
-	
+  local tarball="$tmpdir/node-${VERSION}-${osarch}.tar.gz"
+
   if (
-			cd "$tmpdir" && \
-			cp "$srcdir/node-$VERSION/LICENSE" "$VERSION" && \
-			cp "$srcdir/node-$VERSION/README.md" "$VERSION" && \
-			cp "$srcdir/node-$VERSION/ChangeLog" "$VERSION" && \
-			tar -czf "$tarball" "$VERSION"
+    cd "$tmpdir" && \
+    cp "$srcdir/node-$VERSION/LICENSE" "$VERSION" && \
+    cp "$srcdir/node-$VERSION/README.md" "$VERSION" && \
+    cp "$srcdir/node-$VERSION/ChangeLog" "$VERSION" && \
+    tar -czf "$tarball" "$VERSION"
     )
   then
-		echo "-> Build node $VERSION tarball complete"
-	else
+    echo "-> Build node $VERSION tarball complete"
+  else
     echo "-> Build node $VERSION tarball failed!"
     return 1
   fi
