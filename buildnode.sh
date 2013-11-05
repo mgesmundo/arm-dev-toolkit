@@ -97,6 +97,7 @@ VERSION=$1
 
 # set the absolute path of nvm in your board
 # otherwise npm will not work
+tmpdir="/root/.nvm"
 srcdir="$tmpdir/src"
 tmptarball="$srcdir/node-$VERSION.tar.gz"
 
